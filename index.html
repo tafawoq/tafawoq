@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tafawoq</title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@300&family=Karla&family=Noto+Sans&family=Poppins:wght@300;400&family=Work+Sans&display=swap" rel="stylesheet">
+    <style>
+        
+        *{
+            font-family: 'IBM Plex Sans Thai Looped', sans-serif;
+            font-family: 'Karla', sans-serif;
+            font-family: 'Noto Sans', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            font-family: 'Work Sans', sans-serif;
+        }
+    </style>
+  </head>
+  <body>
+    <ion-app>
+      <ion-nav root="nav-home"></ion-nav>
+    </ion-app>
+
+    <script>
+      techs = [
+        {
+          title: 'Achraf',
+          icon:'game-controller-sharp',
+          age:'14',
+          description:
+            'Achraf is a talented person since he was 14 years old, co-founder, designer and game programmer',
+        },
+        {
+          title: 'Adil',
+          icon:'code-sharp',
+          age:'14',
+          description: 'Adil is a person born in 2008, holder of a programmer certificate and owner of the Porbet project with more than 3 years of experience, proficient in more than 5 programming languages and a motion graphic design.',
+        },
+        {
+          title: 'Bilal',
+          icon:'logo-electron',
+          age:'15',
+          description: "Bilal is one of the most genius students, an intelligent student by nature, an expert in dealing and making robots with more than 4 years of experience, a child with a bright future",
+        },
+        {
+          title: 'Malak',
+          icon:'brush-sharp',
+          age:'14',
+          description: "Malak is a student who is very interested and talented in fashion and designing homes. She has beautiful design ideas and would like to become a great designer as she grows up.",
+        },
+      ];
+
+      customElements.define(
+        'nav-home',
+        class NavHome extends HTMLElement {
+          connectedCallback() {
+            this.innerHTML = `
+          <ion-header translucent>
+            <ion-toolbar>
+                <ion-title><img src='logo.png' width="50px" style='display:inline-block;'/> <span style='display:inline-block;transform:translateY(-80%)'>Tafawoq</span></ion-title>
+            </ion-toolbar>
+            <ion-toolbar>
+                <ion-searchbar id='input' oninput='myFunction()'></ion-searchbar>
+            </ion-tooblar>
+          </ion-header>
+          <ion-content fullscreen>
+            <h1 style='margin:15px'><strong>Welcome to <br> Tafawoq</strong></h1>
+            <ion-list >
+            ${techs
+              .map(
+                (tech) => `
+                <ion-item button onclick="showDetail('${tech.title}')" class='list-group-item'>
+                    <ion-icon slot="start" name="${tech.icon}" style='color:#FF8C00'></ion-icon>
+                  <ion-label>
+                    <h3>${tech.title}</h3>
+                  </ion-label>
+                </ion-item>
+            `
+              )
+              .join('\n')}
+            </ion-list>
+          </ion-content>
+        `;
+          }
+        }
+      );
+
+      const nav = document.querySelector('ion-nav');
+
+      function showDetail(title) {
+        const tech = techs.find((tech) => tech.title === title);
+        nav.push('nav-detail', { tech });
+      }
+
+      customElements.define(
+        'nav-detail',
+        class NavDetail extends HTMLElement {
+          connectedCallback() {
+            this.innerHTML = `
+          <ion-header translucent>
+            <ion-toolbar>
+              <ion-buttons slot="start">
+                <ion-back-button defaultHref="/"></ion-back-button>
+              </ion-buttons>
+              <ion-title>${this.tech.title}</ion-title>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content fullscreen class="ion-padding">
+            <ion-icon name="logo-${this.tech.icon}" style="color: ${this.tech.color};" size="large"></ion-icon>
+            <h1 style='margin:15px'><strong>Name:</strong></h1>
+            <p style='margin:25px'>${this.tech.title}</p>
+            <h1 style='margin:15px'><strong>Age:</strong></h1>
+            <p style='margin:25px'>${this.tech.age}</p>
+            <h1 style='margin:15px'><strong>All about:</strong></h1>
+            <p style='margin:25px'>${this.tech.description}</p>
+          </ion-content>
+        `;
+          }
+        }
+      );
+    </script>
+    <script>
+   //search
+               function myFunction() {
+                    var input = document.getElementById("input");
+                    var filter = input.value.toLowerCase();
+                    var nodes = document.getElementsByClassName('list-group-item');
+
+                    for (i = 0; i < nodes.length; i++) {
+                        if (nodes[i].innerText.toLowerCase().includes(filter)) {
+                        nodes[i].style.display = "block";
+                        } else {
+                        nodes[i].style.display = "none";
+                        }
+                    }
+                    if(input.value == ""){
+                        window.location.reload()
+                    }
+                }
+            
+       
+        
+      </script>
+  </body>
+</html>
